@@ -1,12 +1,13 @@
-// const express = require("express");
-// const app = express();
-// const port = 3000;
-// app.get("/", (req, res) => {
-//   res.send("hello world");
-// });
-// app.listen(port, () => {
-//   console.log(`project is ready`);
-// });
+//EXPRESJS
+const express = require("express");
+const app = express();
+const port = 3000;
+app.get("/", (req, res) => {
+  res.send("Heartbeat");
+});
+app.listen(port, () => {
+  console.log(`Express is ready`);
+});
 
 const fs = require("fs");
 require('dotenv').config()
@@ -35,7 +36,7 @@ const client = new Client({
 // });
 
 client.once("ready", () => {
-  console.log("Bot is ready!");
+  console.log("Bot is ready");
 });
 
 //REACTIONS ----------------------
@@ -76,8 +77,9 @@ client.on("messageCreate", (message) => {
 
 //moneydb
 let userData = {};
+const userdatajsonlocation = "./data/userdata.json";
 try {
-  userData = JSON.parse(fs.readFileSync("userdata.json"));
+  userData = JSON.parse(fs.readFileSync(userdatajsonlocation));
 } catch (err) {
   console.error("Error loading user data:", err);
 }
@@ -129,7 +131,7 @@ client.on("messageCreate", (message) => {
 
     userData[userId].money += 100; // Give 100 money as daily reward
     userData[userId].lastDaily = now;
-    fs.writeFileSync("userdata.json", JSON.stringify(userData, null, 2));
+    fs.writeFileSync(userdatajsonlocation, JSON.stringify(userData, null, 2));
     message.reply("You have claimed your daily 100 money!");
   }
   //bal
@@ -191,7 +193,7 @@ client.on("messageCreate", (message) => {
 client.on("messageCreate", (message) => {
   const userId = message.author.id;
   if (!userData[userId]) userData[userId] = { money: 0, lastDaily: 0, hole: 0 };
-  fs.writeFileSync("userdata.json", JSON.stringify(userData, null, 2));
+  fs.writeFileSync(userdatajsonlocation, JSON.stringify(userData, null, 2));
   if (message.content === "!prostitute") {
     if (userData[userId].hole >= 5) {
       message.reply(`You are too loose... I'm so sorry dear but you are up for elimination`);
