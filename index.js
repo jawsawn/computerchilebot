@@ -9,6 +9,7 @@
 // });
 
 const fs = require("fs");
+require('dotenv').config()
 //DISCORDJS ----
 const { Client, Events, EmbedBuilder, GatewayIntentBits, Partials } = require('discord.js');
 
@@ -349,4 +350,4 @@ client.on('messageReactionAdd', (reaction, user) => {
 
 //money
 
-client.login(process.env.token);
+client.login(process.env.TOKEN);
